@@ -32,7 +32,7 @@ export class CreatePostDto {
   })
   @IsEnum(PostType)
   @IsNotEmpty()
-  postType: string;
+  postType: PostType;
 
   @ApiProperty({
     description: "For example - 'my-url",

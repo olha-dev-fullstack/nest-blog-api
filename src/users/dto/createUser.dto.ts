@@ -13,7 +13,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   @MinLength(3)
   @MaxLength(96)
-  fistName: string;
+  firstName: string;
 
   @IsString()
   @IsOptional()
@@ -23,6 +23,7 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @IsEmail()
+  @MaxLength(96)
   email: string;
 
   @IsString()
@@ -32,5 +33,6 @@ export class CreateUserDto {
     message:
       'Minimum eight characters, at least one letter, one number and one special character',
   })
+  @MaxLength(96)
   password: string;
 }
