@@ -4,12 +4,16 @@ import { CreatePostDto } from '../dto/createPost.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from '../post.entity';
 import { Repository } from 'typeorm';
+import { MetaOption } from 'src/meta-options/metaOption.entity';
 
 @Injectable()
 export class PostsService {
   constructor(
-    private readonly usersService: UsersService, 
-    @InjectRepository(Post) private postsRepository: Repository<Post>) {}
+    private readonly usersService: UsersService,
+    @InjectRepository(Post) private postsRepository: Repository<Post>,
+    @InjectRepository(MetaOption)
+    private metaOptionsRepository: Repository<MetaOption>,
+  ) {}
 
   public async findAll(userId: string) {
     const user = this.usersService.findOneById(userId);
@@ -17,7 +21,14 @@ export class PostsService {
   }
 
   public async create(data: CreatePostDto) {
-    const newPost = this.postsRepository.create(data);
-    return this.postsRepository.save(newPost);
+    let metaOptions = data.metaOptions
+      ? this.metaOptionsRepository.create(data.metaOptions)
+      : null;
+    const post = this.postsRepository.create(data);
+    if (metaOptions) {
+      await this.metaOptionsRepository.save(metaOptions);
+      post.metaOptions = metaOptions;
+    }
+    return this.postsRepository.save(post);
   }
 }
