@@ -8,12 +8,13 @@ import {
   IsString,
   IsUrl,
   Matches,
+  MaxLength,
   MinLength,
   ValidateNested,
 } from 'class-validator';
 import { PostType } from '../enum/postType.enum';
 import { PostStatus } from '../enum/postStatus.enum';
-import { CreatePostMetaOptionsDto } from './createPostMetaOprions.dto';
+import { CreatePostMetaOptionsDto } from './createPostMetaOptions.dto';
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
@@ -43,6 +44,7 @@ export class CreatePostDto {
     message:
       'A slug should be all small letters and uses only "-" and without spaces. For example "my-url"',
   })
+  @MaxLength(256)
   slug: string;
 
   @ApiProperty({
