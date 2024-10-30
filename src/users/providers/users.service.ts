@@ -1,6 +1,10 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, forwardRef, Inject, Injectable } from '@nestjs/common';
 import { GetUsersParamDto } from '../dto/getUsersPAram.dto';
 import { AuthService } from 'src/auth/providers/auth.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from '../user.entity';
+import { CreateUserDto } from '../dto/createUser.dto';
 
 /**
  * Class to connect to Users table and perform business opearations
@@ -13,6 +17,8 @@ export class UsersService {
   constructor(
     @Inject(forwardRef(() => AuthService))
     private readonly authService: AuthService,
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
   ) {}
   /**
    * Method to get all users from the database
@@ -30,5 +36,16 @@ export class UsersService {
    */
   public async findOneById(id: string) {
     return `User with id ${id}`;
+  }
+
+  public async create(createUserDto: CreateUserDto) {
+    const user = await this.usersRepository.findOne({
+      where: { email: createUserDto.email },
+    });
+    if (user) {
+      throw new BadRequestException('User already exist')
+    }
+    let newUser = this.usersRepository.create(createUserDto)
+    return this.usersRepository.save(newUser)
   }
 }
