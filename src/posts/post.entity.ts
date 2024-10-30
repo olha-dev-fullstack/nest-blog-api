@@ -1,7 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { PostType } from "./enum/postType.enum";
-import { PostStatus } from "./enum/postStatus.enum";
-import { CreatePostMetaOptionsDto } from "./dto/createPostMetaOprions.dto";
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { PostType } from './enum/postType.enum';
+import { PostStatus } from './enum/postStatus.enum';
+import { CreatePostMetaOptionsDto } from './dto/createPostMetaOptions.dto';
 
 @Entity()
 export class Post {
@@ -65,7 +65,7 @@ export class Post {
   publishOn?: Date;
 
   // Work on these in lecture on relationships
-  
+
   tags?: string[];
   metaOptions?: CreatePostMetaOptionsDto[];
 }
