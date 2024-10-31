@@ -1,4 +1,12 @@
-import { BadRequestException, forwardRef, Inject, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  forwardRef,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  RequestTimeoutException,
+} from '@nestjs/common';
 import { GetUsersParamDto } from '../dto/getUsersPAram.dto';
 import { AuthService } from 'src/auth/providers/auth.service';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -22,7 +30,7 @@ export class UsersService {
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     @Inject(profileConfig.KEY)
-    private readonly profileConfiguration: ConfigType<typeof profileConfig>
+    private readonly profileConfiguration: ConfigType<typeof profileConfig>,
   ) {}
   /**
    * Method to get all users from the database
@@ -32,24 +40,57 @@ export class UsersService {
     limit: number,
     page: number,
   ) {
-    // const isAuth = this.authService.isAuth();
-    return this.profileConfiguration;
+    throw new HttpException(
+      {
+        status: HttpStatus.MOVED_PERMANENTLY,
+        error: 'The API endopint does not exist',
+        fileName: 'users.service.ts',
+        lineNumber: 88,
+      },
+      HttpStatus.MOVED_PERMANENTLY,
+      {
+        cause: new Error(),
+        description: 'Occured because abrikos',
+      },
+    );
   }
   /**
    * Method to get specifec user by id from the database
    */
   public async findOneById(id: number) {
-    return this.usersRepository.findOneBy({id});
+    let user = undefined;
+    try {
+      user = await this.usersRepository.findOneByOrFail({ id });
+    } catch (error) {
+      throw new RequestTimeoutException('Unable to process request', {
+        description: 'Error conecting to the database',
+      });
+    }
+    return user;
   }
 
   public async create(createUserDto: CreateUserDto) {
-    const user = await this.usersRepository.findOne({
-      where: { email: createUserDto.email },
-    });
-    if (user) {
-      throw new BadRequestException('User already exist')
+    let user = undefined;
+    try {
+      user = await this.usersRepository.findOne({
+        where: { email: createUserDto.email },
+      });
+    } catch (error) {
+      throw new RequestTimeoutException('Unable to process request', {
+        description: 'Error conecting to the database',
+      });
     }
-    let newUser = this.usersRepository.create(createUserDto)
-    return this.usersRepository.save(newUser)
+    if (user) {
+      throw new BadRequestException('User already exist');
+    }
+    let newUser = await this.usersRepository.create(createUserDto);
+    try {
+      newUser = await this.usersRepository.save(newUser);
+    } catch (error) {
+      throw new RequestTimeoutException('Unable to process request', {
+        description: 'Error conecting to the database',
+      });
+    }
+    return newUser;
   }
 }
