@@ -8,7 +8,7 @@ export class AuthService {
     private readonly usersService: UsersService,
   ) {}
 
-  public login(email: string, password: string, userId: string) {
+  public login(email: string, password: string, userId: number) {
     const user = this.usersService.findOneById(userId);
     return 'SAMPLE_TOKEN';
   }

@@ -34,8 +34,8 @@ export class UsersService {
   /**
    * Method to get specifec user by id from the database
    */
-  public async findOneById(id: string) {
-    return `User with id ${id}`;
+  public async findOneById(id: number) {
+    return this.usersRepository.findOneBy({id});
   }
 
   public async create(createUserDto: CreateUserDto) {

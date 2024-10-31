@@ -7,6 +7,7 @@ import { MetaOptionsService } from './providers/metaOptions.service';
 @Module({
   imports: [TypeOrmModule.forFeature([MetaOption])],
   controllers: [MetaOptionsController],
-  providers: [MetaOptionsService]
+  providers: [MetaOptionsService],
+  exports: [MetaOptionsService]
 })
 export class MetaOptionsModule {}
