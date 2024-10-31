@@ -10,7 +10,7 @@ export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get('/:userId?')
-  public async getPosts(@Param('userId') userId: string) {
+  public async getPosts(@Param('userId') userId: number) {
     return this.postsService.findAll(userId);
   }
 
@@ -34,9 +34,9 @@ export class PostsController {
     description:
       'You get a success 200 response if the post is updated successfully',
   })
-  @Patch()
-  public async updatePost(@Body() patchPostDto: UpdatePostDto) {
-    return patchPostDto;
+  @Patch('/:id')
+  public async updatePost(@Param('id') postId: number, @Body() updatePostDto: UpdatePostDto) {
+    return this.postsService.update(postId, updatePostDto);
   }
 
   @Delete('/:id')
