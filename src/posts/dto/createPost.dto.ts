@@ -1,7 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsArray,
-  IsDate,
   IsDateString,
   IsEnum,
   IsISO8601,
@@ -12,12 +11,9 @@ import {
   IsString,
   IsUrl,
   Matches,
-  Max,
   MaxLength,
-  Min,
   MinLength,
   ValidateNested,
-  isNotEmpty,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { PostStatus } from '../enum/postStatus.enum';

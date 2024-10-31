@@ -17,18 +17,20 @@ export class PostsService {
 
   public async findAll(userId: string) {
     const user = this.usersService.findOneById(userId);
-    return `All posts from user ${userId}`;
+    return this.postsRepository.find({
+      relations: {
+        metaOptions: true,
+      },
+    });
+  }
+
+  public async delete(id: number) {
+    await this.postsRepository.delete(id);
+    return { deleted: true, id };
   }
 
   public async create(data: CreatePostDto) {
-    let metaOptions = data.metaOptions
-      ? this.metaOptionsRepository.create(data.metaOptions)
-      : null;
     const post = this.postsRepository.create(data);
-    if (metaOptions) {
-      await this.metaOptionsRepository.save(metaOptions);
-      post.metaOptions = metaOptions;
-    }
     return this.postsRepository.save(post);
   }
 }
