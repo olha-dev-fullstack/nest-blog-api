@@ -1,10 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  RequestTimeoutException,
+} from '@nestjs/common';
 import { UsersService } from 'src/users/providers/users.service';
 import { CreatePostDto } from '../dto/createPost.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from '../post.entity';
 import { Repository } from 'typeorm';
-import { MetaOption } from 'src/meta-options/metaOption.entity';
 import { TagsService } from 'src/tags/providers/tags.service';
 import { UpdatePostDto } from '../dto/updatePost.dto';
 import { MetaOptionsService } from 'src/meta-options/providers/metaOptions.service';
@@ -45,23 +48,35 @@ export class PostsService {
   }
 
   public async update(postId: number, updatePostDto: UpdatePostDto) {
-    const post = await this.postsRepository.findOneBy({ id: postId });
+    const post = await this.postsRepository.findOneByOrFail({ id: postId });
     if (updatePostDto.metaOptions && post.metaOptions) {
-      const newMetaOptions = await this.metaOptionsService.update(
-        post.metaOptions.id,
-        updatePostDto.metaOptions,
-      );
-      post.metaOptions = newMetaOptions;
-      delete updatePostDto.metaOptions;
+      try {
+        const newMetaOptions = await this.metaOptionsService.update(
+          post.metaOptions.id,
+          updatePostDto.metaOptions,
+        );
+        post.metaOptions = newMetaOptions;
+        delete updatePostDto.metaOptions;
+      } catch (e) {
+        throw new RequestTimeoutException();
+      }
     }
     if (updatePostDto.tags) {
-      const tags = await this.tagsService.findMultipleTags(updatePostDto.tags);
-      post.tags = tags;
-      delete updatePostDto.tags;
+      try {
+        const tags = await this.tagsService.findMultipleTags(
+          updatePostDto.tags,
+        );
+        post.tags = tags;
+        delete updatePostDto.tags;
+      } catch (e) {
+        throw new NotFoundException('Tags not found');
+      }
+      Object.assign(post, updatePostDto);
+      try {
+        return this.postsRepository.save(post);
+      } catch (e) {
+        throw new RequestTimeoutException();
+      }
     }
-    Object.assign(post, updatePostDto);
-    console.log(post);
-
-    return this.postsRepository.save(post);
   }
 }
