@@ -5,6 +5,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../user.entity';
 import { CreateUserDto } from '../dto/createUser.dto';
+import profileConfig from '../config/profile.config';
+import { ConfigType } from '@nestjs/config';
 
 /**
  * Class to connect to Users table and perform business opearations
@@ -19,6 +21,8 @@ export class UsersService {
     private readonly authService: AuthService,
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    @Inject(profileConfig.KEY)
+    private readonly profileConfiguration: ConfigType<typeof profileConfig>
   ) {}
   /**
    * Method to get all users from the database
@@ -28,8 +32,8 @@ export class UsersService {
     limit: number,
     page: number,
   ) {
-    const isAuth = this.authService.isAuth();
-    return 'Users array';
+    // const isAuth = this.authService.isAuth();
+    return this.profileConfiguration;
   }
   /**
    * Method to get specifec user by id from the database

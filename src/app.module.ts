@@ -8,18 +8,22 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { TagsModule } from './tags/tags.module';
 import { MetaOptionsModule } from './meta-options/metaOptions.module';
-import ormConfig from './config/orm.config';
+import database from './config/database.config';
+import appConfig from './config/app.config';
+import environmentValidation from './config/environment.validation';
+const ENV = process.env.NODE_ENV
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [ormConfig],
+      load: [database, appConfig],
+      validationSchema: environmentValidation,
       expandVariables: true,
-      envFilePath: `.env`,
+      envFilePath: !ENV ? '.env' : `.env.${ENV}`,
     }),
     TypeOrmModule.forRootAsync({
-      useFactory: ormConfig,
+      useFactory: database,
     }),
     UsersModule,
     PostsModule,
