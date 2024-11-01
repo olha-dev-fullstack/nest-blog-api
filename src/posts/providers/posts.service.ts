@@ -8,7 +8,7 @@ import { CreatePostDto } from '../dto/createPost.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from '../post.entity';
 import { Repository } from 'typeorm';
-import { TagsService } from 'src/tags/providers/tags.service';
+ import { TagsService } from 'src/tags/providers/tags.service';
 import { UpdatePostDto } from '../dto/updatePost.dto';
 import { MetaOptionsService } from 'src/meta-options/providers/metaOptions.service';
 

@@ -15,6 +15,9 @@ import { User } from '../user.entity';
 import { CreateUserDto } from '../dto/createUser.dto';
 import profileConfig from '../config/profile.config';
 import { ConfigType } from '@nestjs/config';
+import { UsersCreateManyProvider } from './users-create-many.provider';
+import { CreateManyUsersDto } from '../dto/createManyUsers.dto';
+import { handleDbError } from 'src/common/utils/exception.util';
 
 /**
  * Class to connect to Users table and perform business opearations
@@ -31,6 +34,7 @@ export class UsersService {
     private usersRepository: Repository<User>,
     @Inject(profileConfig.KEY)
     private readonly profileConfiguration: ConfigType<typeof profileConfig>,
+    private readonly usersCreateManyProvider: UsersCreateManyProvider,
   ) {}
   /**
    * Method to get all users from the database
@@ -59,38 +63,30 @@ export class UsersService {
    */
   public async findOneById(id: number) {
     let user = undefined;
-    try {
-      user = await this.usersRepository.findOneByOrFail({ id });
-    } catch (error) {
-      throw new RequestTimeoutException('Unable to process request', {
-        description: 'Error conecting to the database',
-      });
-    }
+    user = await handleDbError(() =>
+      this.usersRepository.findOneByOrFail({ id }),
+    );
     return user;
   }
 
   public async create(createUserDto: CreateUserDto) {
     let user = undefined;
-    try {
-      user = await this.usersRepository.findOne({
+    user = await handleDbError(() =>
+      this.usersRepository.findOne({
         where: { email: createUserDto.email },
-      });
-    } catch (error) {
-      throw new RequestTimeoutException('Unable to process request', {
-        description: 'Error conecting to the database',
-      });
-    }
+      }),
+    );
     if (user) {
       throw new BadRequestException('User already exist');
     }
     let newUser = await this.usersRepository.create(createUserDto);
-    try {
-      newUser = await this.usersRepository.save(newUser);
-    } catch (error) {
-      throw new RequestTimeoutException('Unable to process request', {
-        description: 'Error conecting to the database',
-      });
-    }
+    newUser = await handleDbError(
+      () => this.usersRepository.save(newUser),
+    );
     return newUser;
+  }
+
+  public async createMany(createUsersDto: CreateManyUsersDto) {
+    return this.usersCreateManyProvider.createMany(createUsersDto);
   }
 }
