@@ -80,9 +80,7 @@ export class UsersService {
       throw new BadRequestException('User already exist');
     }
     let newUser = await this.usersRepository.create(createUserDto);
-    newUser = await handleDbError(
-      () => this.usersRepository.save(newUser),
-    );
+    newUser = await handleDbError(() => this.usersRepository.save(newUser));
     return newUser;
   }
 

@@ -8,10 +8,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { TagsModule } from './tags/tags.module';
 import { MetaOptionsModule } from './meta-options/metaOptions.module';
+import { PaginationModule } from './common/pagination/pagination.module';
 import database from './config/database.config';
 import appConfig from './config/app.config';
 import environmentValidation from './config/environment.validation';
-const ENV = process.env.NODE_ENV
+const ENV = process.env.NODE_ENV;
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ const ENV = process.env.NODE_ENV
     AuthModule,
     TagsModule,
     MetaOptionsModule,
+    PaginationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

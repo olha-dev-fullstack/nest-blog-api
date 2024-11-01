@@ -1,8 +1,18 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { PostsService } from './providers/posts.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreatePostDto } from './dto/createPost.dto';
 import { UpdatePostDto } from './dto/updatePost.dto';
+import { GetPostsDto } from './dto/getPosts.dto';
 
 @Controller('posts')
 @ApiTags('Posts')
@@ -10,8 +20,11 @@ export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get('/:userId?')
-  public async getPosts(@Param('userId') userId: number) {
-    return this.postsService.findAll(userId);
+  public async getPosts(
+    @Param('userId') userId: number,
+    @Query() postQuery: GetPostsDto,
+  ) {
+    return this.postsService.findAll(userId, postQuery);
   }
 
   @ApiOperation({
@@ -35,7 +48,10 @@ export class PostsController {
       'You get a success 200 response if the post is updated successfully',
   })
   @Patch('/:id')
-  public async updatePost(@Param('id') postId: number, @Body() updatePostDto: UpdatePostDto) {
+  public async updatePost(
+    @Param('id') postId: number,
+    @Body() updatePostDto: UpdatePostDto,
+  ) {
     return this.postsService.update(postId, updatePostDto);
   }
 
