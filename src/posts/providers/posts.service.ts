@@ -8,9 +8,12 @@ import { CreatePostDto } from '../dto/createPost.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from '../post.entity';
 import { Repository } from 'typeorm';
- import { TagsService } from 'src/tags/providers/tags.service';
+import { TagsService } from 'src/tags/providers/tags.service';
 import { UpdatePostDto } from '../dto/updatePost.dto';
 import { MetaOptionsService } from 'src/meta-options/providers/metaOptions.service';
+import { GetPostsDto } from '../dto/getPosts.dto';
+import { PaginationProvider } from 'src/common/pagination/providers/pagination.provider';
+import { Paginated } from 'src/common/pagination/interfaces/paginated.interface';
 
 @Injectable()
 export class PostsService {
@@ -18,17 +21,12 @@ export class PostsService {
     private readonly usersService: UsersService,
     private readonly tagsService: TagsService,
     private readonly metaOptionsService: MetaOptionsService,
-
+    private readonly paginationProvider: PaginationProvider,
     @InjectRepository(Post) private postsRepository: Repository<Post>,
   ) {}
 
-  public async findAll(userId: number) {
-    // const user = this.usersService.findOneById(userId);
-    return this.postsRepository.find({
-      relations: {
-        metaOptions: true,
-      },
-    });
+  public async findAll(userId: number, postQuery: GetPostsDto): Promise<Paginated<Post>> {
+    return this.paginationProvider.paginateQuery(postQuery, this.postsRepository);
   }
 
   public async delete(id: number) {
