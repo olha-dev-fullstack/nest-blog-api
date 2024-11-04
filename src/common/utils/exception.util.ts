@@ -14,7 +14,7 @@ export async function handleDbError<T>(
     return await fn();
   } catch (e) {
     throw new RequestTimeoutException(message ?? 'Unable to process request', {
-      description: description ?? String(e),
+      description: description ?? e.toString(),
     });
   }
 }

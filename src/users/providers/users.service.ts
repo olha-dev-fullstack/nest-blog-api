@@ -6,6 +6,7 @@ import {
   Inject,
   Injectable,
   RequestTimeoutException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { GetUsersParamDto } from '../dto/getUsersPAram.dto';
 import { AuthService } from 'src/auth/providers/auth.service';
@@ -18,6 +19,8 @@ import { ConfigType } from '@nestjs/config';
 import { UsersCreateManyProvider } from './users-create-many.provider';
 import { CreateManyUsersDto } from '../dto/createManyUsers.dto';
 import { handleDbError } from 'src/common/utils/exception.util';
+import { CreateUserProvider } from './create-user.provider';
+import { throws } from 'assert';
 
 /**
  * Class to connect to Users table and perform business opearations
@@ -35,6 +38,7 @@ export class UsersService {
     @Inject(profileConfig.KEY)
     private readonly profileConfiguration: ConfigType<typeof profileConfig>,
     private readonly usersCreateManyProvider: UsersCreateManyProvider,
+    private readonly createUserProvider: CreateUserProvider,
   ) {}
   /**
    * Method to get all users from the database
@@ -69,19 +73,19 @@ export class UsersService {
     return user;
   }
 
-  public async create(createUserDto: CreateUserDto) {
-    let user = undefined;
-    user = await handleDbError(() =>
-      this.usersRepository.findOne({
-        where: { email: createUserDto.email },
-      }),
+  public async findOneByEmail(email: string) {
+    const user = await handleDbError(
+      () => this.usersRepository.findOneBy({ email }),
+      { description: 'Could not fetch the user' },
     );
-    if (user) {
-      throw new BadRequestException('User already exist');
+    if (!user) {
+      throw new UnauthorizedException('User does not exist');
     }
-    let newUser = await this.usersRepository.create(createUserDto);
-    newUser = await handleDbError(() => this.usersRepository.save(newUser));
-    return newUser;
+    return user;
+  }
+
+  public async create(createUserDto: CreateUserDto) {
+    return this.createUserProvider.create(createUserDto);
   }
 
   public async createMany(createUsersDto: CreateManyUsersDto) {
