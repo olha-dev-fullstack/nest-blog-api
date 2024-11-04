@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
   RequestTimeoutException,
@@ -14,6 +15,7 @@ import { MetaOptionsService } from 'src/meta-options/providers/metaOptions.servi
 import { GetPostsDto } from '../dto/getPosts.dto';
 import { PaginationProvider } from 'src/common/pagination/providers/pagination.provider';
 import { Paginated } from 'src/common/pagination/interfaces/paginated.interface';
+import { handleDbError } from 'src/common/utils/exception.util';
 
 @Injectable()
 export class PostsService {
@@ -25,8 +27,14 @@ export class PostsService {
     @InjectRepository(Post) private postsRepository: Repository<Post>,
   ) {}
 
-  public async findAll(userId: number, postQuery: GetPostsDto): Promise<Paginated<Post>> {
-    return this.paginationProvider.paginateQuery(postQuery, this.postsRepository);
+  public async findAll(
+    userId: number,
+    postQuery: GetPostsDto,
+  ): Promise<Paginated<Post>> {
+    return this.paginationProvider.paginateQuery(
+      postQuery,
+      this.postsRepository,
+    );
   }
 
   public async delete(id: number) {
@@ -34,15 +42,23 @@ export class PostsService {
     return { deleted: true, id };
   }
 
-  public async create(data: CreatePostDto) {
-    const author = await this.usersService.findOneById(data.authorId);
-    const tags = await this.tagsService.findMultipleTags(data.tags);
+  public async create(data: CreatePostDto, userId: number) {
+    const author = await handleDbError(() =>
+      this.usersService.findOneById(userId),
+    );
+    const tags = await handleDbError(() =>
+      this.tagsService.findMultipleTags(data.tags),
+    );
+    
+    if (data.tags.length !== tags.length) {
+      throw new BadRequestException('Check tag ids');
+    }
     const post = this.postsRepository.create({
       ...data,
       author,
       tags,
     });
-    return this.postsRepository.save(post);
+    return await handleDbError(() => this.postsRepository.save(post));
   }
 
   public async update(postId: number, updatePostDto: UpdatePostDto) {

@@ -8,7 +8,6 @@ import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { AccessTokenGuard } from '../access-token/access-token.guard';
 import { AuthType } from 'src/auth/enums/authType.enum';
-import { Auth } from 'src/auth/decorators/auth.decorator';
 import { AUTH_TYPE_KEY } from 'src/auth/constants/auth.constants';
 
 @Injectable()
@@ -37,9 +36,9 @@ export class AuthenticationGuard implements CanActivate {
     for (const instance of guards) {
       const canActivate = await Promise.resolve(
         instance.canActivate(context),
-      ).catch((e) => ({
-        error: e,
-      }));
+      ).catch((e) => {
+        console.log('error', e);
+      });
       if (canActivate) {
         return true;
       }

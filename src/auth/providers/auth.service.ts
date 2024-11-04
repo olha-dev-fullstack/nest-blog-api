@@ -11,6 +11,7 @@ import { handleDbError } from 'src/common/utils/exception.util';
 import { JwtService } from '@nestjs/jwt';
 import jwtConfig from '../config/jwt.config';
 import { ConfigType } from '@nestjs/config';
+import { IActiveUser } from '../interfaces/activeUser.interface';
 
 @Injectable()
 export class AuthService {
@@ -38,7 +39,7 @@ export class AuthService {
       {
         sub: user.id,
         email: user.email,
-      },
+      } as IActiveUser,
       {
         audience: this.jwtConfiguration.audience,
         issuer: this.jwtConfiguration.issuer,

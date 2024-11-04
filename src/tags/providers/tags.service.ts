@@ -15,12 +15,12 @@ export class TagsService {
     return this.tagRepository.save(tag);
   }
 
-  public async findMultipleTags(tags: number[]) {
+  public async findMultipleTags(tags: number[]) {    
     const results = await this.tagRepository.find({
       where: {
         id: In(tags),
       },
-    });
+    });    
     return results;
   }
 
