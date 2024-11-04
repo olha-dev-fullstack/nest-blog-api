@@ -8,10 +8,8 @@ import { UsersService } from 'src/users/providers/users.service';
 import { SignInDto } from '../dto/signin.dto';
 import { HashingProvider } from './hashing.provider';
 import { handleDbError } from 'src/common/utils/exception.util';
-import { JwtService } from '@nestjs/jwt';
-import jwtConfig from '../config/jwt.config';
-import { ConfigType } from '@nestjs/config';
-import { IActiveUser } from '../interfaces/activeUser.interface';
+import { TokensProvider } from './tokens.provider';
+import { RefreshTokenDto } from '../dto/refreshToken.dto';
 
 @Injectable()
 export class AuthService {
@@ -19,9 +17,7 @@ export class AuthService {
     @Inject(forwardRef(() => UsersService))
     private readonly usersService: UsersService,
     private readonly hashingProvider: HashingProvider,
-    private readonly jwtService: JwtService,
-    @Inject(jwtConfig.KEY)
-    private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
+    private readonly tokensProvider: TokensProvider,
   ) {}
 
   public async signIn(signInDto: SignInDto) {
@@ -35,23 +31,10 @@ export class AuthService {
       throw new UnauthorizedException('Incorrect Password');
     }
 
-    const accessToken = await this.jwtService.signAsync(
-      {
-        sub: user.id,
-        email: user.email,
-      } as IActiveUser,
-      {
-        audience: this.jwtConfiguration.audience,
-        issuer: this.jwtConfiguration.issuer,
-        secret: this.jwtConfiguration.secret,
-        expiresIn: this.jwtConfiguration.accessTokenTtl,
-      },
-    );
-
-    return { accessToken };
+    return this.tokensProvider.generateTokens(user);
   }
 
-  public isAuth() {
-    return true;
+  public async refreshTokens(refreshTokensDto: RefreshTokenDto) {
+    return this.tokensProvider.refreshTokens(refreshTokensDto)
   }
 }
