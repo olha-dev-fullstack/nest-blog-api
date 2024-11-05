@@ -1,11 +1,9 @@
 import {
-  BadRequestException,
   forwardRef,
   HttpException,
   HttpStatus,
   Inject,
   Injectable,
-  RequestTimeoutException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { GetUsersParamDto } from '../dto/getUsersPAram.dto';
@@ -20,7 +18,7 @@ import { UsersCreateManyProvider } from './users-create-many.provider';
 import { CreateManyUsersDto } from '../dto/createManyUsers.dto';
 import { handleDbError } from 'src/common/utils/exception.util';
 import { CreateUserProvider } from './create-user.provider';
-import { throws } from 'assert';
+import { IGoogleUser } from '../interfaces/googleUser.interface';
 
 /**
  * Class to connect to Users table and perform business opearations
@@ -36,7 +34,6 @@ export class UsersService {
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     @Inject(profileConfig.KEY)
-    private readonly profileConfiguration: ConfigType<typeof profileConfig>,
     private readonly usersCreateManyProvider: UsersCreateManyProvider,
     private readonly createUserProvider: CreateUserProvider,
   ) {}
@@ -84,8 +81,16 @@ export class UsersService {
     return user;
   }
 
+  public async findOneByGoogleId(googleId: string) {
+    return this.usersRepository.findOneBy({ googleId });
+  }
+
   public async create(createUserDto: CreateUserDto) {
     return this.createUserProvider.create(createUserDto);
+  }
+
+  public async createGoogleUser(googleUser: IGoogleUser) {
+    return this.createUserProvider.createGoogleUser(googleUser);
   }
 
   public async createMany(createUsersDto: CreateManyUsersDto) {

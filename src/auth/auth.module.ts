@@ -8,9 +8,11 @@ import { ConfigModule } from '@nestjs/config';
 import jwtConfig from './config/jwt.config';
 import { JwtModule } from '@nestjs/jwt';
 import {TokensProvider } from './providers/tokens.provider';
+import { GoogleAuthenticationController } from './social/google-authentication.controller';
+import { GoogleAuthenticationService } from './social/providers/google-authentication.service';
 
 @Module({
-  controllers: [AuthController],
+  controllers: [AuthController, GoogleAuthenticationController],
   providers: [
     AuthService,
     {
@@ -18,6 +20,7 @@ import {TokensProvider } from './providers/tokens.provider';
       useClass: BcryptProvider,
     },
     TokensProvider,
+    GoogleAuthenticationService,
   ],
   imports: [
     forwardRef(() => UsersModule),

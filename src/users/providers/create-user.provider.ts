@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   forwardRef,
   Inject,
   Injectable,
@@ -10,6 +11,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../user.entity';
 import { Repository } from 'typeorm';
 import { HashingProvider } from 'src/auth/providers/hashing.provider';
+import { IGoogleUser } from '../interfaces/googleUser.interface';
 
 @Injectable()
 export class CreateUserProvider {
@@ -25,7 +27,7 @@ export class CreateUserProvider {
       this.usersRepository.findOne({
         where: { email: createUserDto.email },
       }),
-    );       
+    );
     if (user) {
       throw new BadRequestException('User already exist');
     }
@@ -36,5 +38,16 @@ export class CreateUserProvider {
 
     newUser = await handleDbError(() => this.usersRepository.save(newUser));
     return newUser;
+  }
+
+  public async createGoogleUser(googleUser: IGoogleUser) {
+    try {
+      const user = this.usersRepository.create(googleUser);
+      return this.usersRepository.save(user);
+    } catch (e) {
+      throw new ConflictException(e, {
+        description: 'Could not create a new user',
+      });
+    }
   }
 }
