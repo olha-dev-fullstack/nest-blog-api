@@ -12,8 +12,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../user.entity';
 import { CreateUserDto } from '../dto/createUser.dto';
-import profileConfig from '../config/profile.config';
-import { ConfigType } from '@nestjs/config';
 import { UsersCreateManyProvider } from './users-create-many.provider';
 import { CreateManyUsersDto } from '../dto/createManyUsers.dto';
 import { handleDbError } from 'src/common/utils/exception.util';
@@ -29,11 +27,8 @@ export class UsersService {
    * Injecting Auth service
    */
   constructor(
-    @Inject(forwardRef(() => AuthService))
-    private readonly authService: AuthService,
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-    @Inject(profileConfig.KEY)
     private readonly usersCreateManyProvider: UsersCreateManyProvider,
     private readonly createUserProvider: CreateUserProvider,
   ) {}
