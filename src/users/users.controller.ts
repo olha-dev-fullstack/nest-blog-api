@@ -52,7 +52,7 @@ export class UsersController {
 
   @Post()
   public async createUser(@Body() user: CreateUserDto) {
-    return user;
+    return this.usersService.createUser(user);
   }
 
   @Patch()

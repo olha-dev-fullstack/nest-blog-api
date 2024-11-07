@@ -9,9 +9,9 @@ import { UpdatePostDto } from './dto/updatePost.dto';
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
-  @Get('/:userId?')
-  public async getPosts(@Param('userId') userId: string) {
-    return this.postsService.findAll(userId);
+  @Get()
+  public async getPosts() {
+    return this.postsService.findAll();
   }
 
   @ApiOperation({
@@ -23,7 +23,7 @@ export class PostsController {
   })
   @Post()
   public createPost(@Body() createPostDto: CreatePostDto) {
-    return this.postsService.create(createPostDto);
+    return this.postsService.createPost(createPostDto);
   }
 
   @ApiOperation({

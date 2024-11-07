@@ -1,19 +1,17 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { GetUsersParamDto } from '../dto/getUsersPAram.dto';
 import { AuthService } from 'src/auth/providers/auth.service';
+import { Model } from 'mongoose';
+import { User } from '../user.schema';
+import { InjectModel } from '@nestjs/mongoose';
+import { CreateUserDto } from '../dto/createUser.dto';
 
 /**
  * Class to connect to Users table and perform business opearations
  */
 @Injectable()
 export class UsersService {
-  /**
-   * Injecting Auth service
-   */
-  constructor(
-    @Inject(forwardRef(() => AuthService))
-    private readonly authService: AuthService,
-  ) {}
+  constructor(@InjectModel(User.name) private readonly userModel: Model<User>) {}
   /**
    * Method to get all users from the database
    */
@@ -22,7 +20,6 @@ export class UsersService {
     limit: number,
     page: number,
   ) {
-    const isAuth = this.authService.isAuth();
     return 'Users array';
   }
   /**
@@ -30,5 +27,10 @@ export class UsersService {
    */
   public async findOneById(id: string) {
     return `User with id ${id}`;
+  }
+
+  public async createUser(createUserDto: CreateUserDto) {
+    const newUser = new this.userModel(createUserDto);
+    return newUser.save();
   }
 }

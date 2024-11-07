@@ -86,12 +86,7 @@ export class CreatePostDto {
   @IsOptional()
   publishOn?: Date;
 
-  @ApiPropertyOptional()
-  @IsArray()
-  @IsOptional()
-  @IsString({ each: true })
-  @MinLength(3, { each: true })
-  tags?: string[];
+
 
   @ApiPropertyOptional({
     type: 'array',
@@ -113,4 +108,17 @@ export class CreatePostDto {
   @ValidateNested({ each: true })
   @Type(() => CreatePostMetaOptionsDto)
   metaOptions: CreatePostMetaOptionsDto[];
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  author: string;
+
+  @ApiPropertyOptional()
+  @IsArray()
+  @IsOptional()
+  @IsString({ each: true })
+  @MinLength(3, { each: true })
+  tags?: string[];
+
 }
