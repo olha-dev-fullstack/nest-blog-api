@@ -5,7 +5,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiHeader, ApiHeaders, ApiOperation } from '@nestjs/swagger';
+import { ApiHeaders, ApiOperation } from '@nestjs/swagger';
 import { UploadsService } from './providers/uploads.service';
 
 @Controller('uploads')

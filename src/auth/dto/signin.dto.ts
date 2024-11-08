@@ -9,7 +9,7 @@ export class SignInDto {
   @IsEmail()
   @IsNotEmpty()
   email: string;
-  
+
   @ApiProperty({
     description: 'Password for the user account',
     example: 'P@ssw0rd!',

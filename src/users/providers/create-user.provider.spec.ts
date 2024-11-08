@@ -1,12 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersService } from './users.service';
-import { CreateManyUsersDto } from '../dto/createManyUsers.dto';
-import { UsersCreateManyProvider } from './users-create-many.provider';
 import { CreateUserProvider } from './create-user.provider';
 import { DataSource, Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from '../user.entity';
-import { CreateUserDto } from '../dto/createUser.dto';
 import { MailService } from 'src/mail/providers/mail.service';
 import { HashingProvider } from 'src/auth/providers/hashing.provider';
 import { BadRequestException } from '@nestjs/common';
@@ -57,7 +53,7 @@ describe('CreateUserProvider', () => {
         usersRepository.findOne.mockReturnValue(null);
         usersRepository.create.mockReturnValue(user);
         usersRepository.save.mockReturnValue(user);
-        const newUser = await provider.create(user);
+        await provider.create(user);
         expect(usersRepository.findOne).toHaveBeenCalledWith({
           where: { email: user.email },
         });
@@ -71,7 +67,7 @@ describe('CreateUserProvider', () => {
         usersRepository.create.mockReturnValue(user);
         usersRepository.save.mockReturnValue(user);
         try {
-          const newUser = await provider.create(user);
+          await provider.create(user);
         } catch (e) {
           expect(e).toBeInstanceOf(BadRequestException);
         }

@@ -49,7 +49,7 @@ export class PostsService {
     const tags = await handleDbError(() =>
       this.tagsService.findMultipleTags(data.tags),
     );
-    
+
     if (data.tags.length !== tags.length) {
       throw new BadRequestException('Check tag ids');
     }

@@ -8,14 +8,14 @@ export class MailService {
 
   public async sendUserWelcome(user: User): Promise<void> {
     await this.mailerService.sendMail({
-        to: user.email,
-        subject: 'Welcome to Nestjs Blog',
-        template: './welcome',
-        context: {
-            name: user.firstName,
-            email: user.email,
-            loginUrl: 'http://localhost:3000'
-        }
-    })
+      to: user.email,
+      subject: 'Welcome to Nestjs Blog',
+      template: './welcome',
+      context: {
+        name: user.firstName,
+        email: user.email,
+        loginUrl: 'http://localhost:3000',
+      },
+    });
   }
 }

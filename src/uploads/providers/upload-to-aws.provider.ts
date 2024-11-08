@@ -8,7 +8,7 @@ import { v4 as uuid4 } from 'uuid';
 export class UploadToAwsProvider {
   constructor(private readonly configServise: ConfigService) {}
 
-  public async fileUpload(file: Express.Multer.File) {    
+  public async fileUpload(file: Express.Multer.File) {
     const s3 = new S3();
     try {
       const uploadResult = await s3
@@ -26,10 +26,10 @@ export class UploadToAwsProvider {
   }
 
   private generateFileName(file: Express.Multer.File) {
-    let fileName = file.originalname.split('.')[0];
+    const fileName = file.originalname.split('.')[0];
     fileName.replace(/\s/g, '').trim();
-    let extension = path.extname(file.originalname);
-    let timestamp = new Date().getTime().toString().trim();
+    const extension = path.extname(file.originalname);
+    const timestamp = new Date().getTime().toString().trim();
     return `${fileName}-${timestamp}-${uuid4()}${extension}`;
   }
 }

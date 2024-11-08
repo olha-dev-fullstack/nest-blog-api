@@ -7,12 +7,12 @@ import { GoogleAuthenticationService } from './providers/google-authentication.s
 @Auth(AuthType.None)
 @Controller('google-authentication')
 export class GoogleAuthenticationController {
-    constructor(
-        private readonly googleAuthService: GoogleAuthenticationService
-    ) {}
+  constructor(
+    private readonly googleAuthService: GoogleAuthenticationService,
+  ) {}
 
-    @Post()
-    public authenticate(@Body() googleTokenDto: GoogleTokenDto) {
-        return this.googleAuthService.authenticate(googleTokenDto)
-    }
+  @Post()
+  public authenticate(@Body() googleTokenDto: GoogleTokenDto) {
+    return this.googleAuthService.authenticate(googleTokenDto);
+  }
 }

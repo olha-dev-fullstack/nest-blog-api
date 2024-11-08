@@ -2,17 +2,12 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
-  DefaultValuePipe,
   Get,
-  Param,
-  ParseIntPipe,
   Patch,
   Post,
-  Query,
   UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/createUser.dto';
-import { GetUsersParamDto } from './dto/getUsersParam.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { UsersService } from './providers/users.service';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -27,32 +22,28 @@ export class UsersController {
 
   @Get('/:id?')
   @ApiOperation({
-    summary: 'Fetches a list of users on the application' 
+    summary: 'Fetches a list of users on the application',
   })
   @ApiResponse({
-    status:200,
-    description: "Users fetched successfully based on the query"
+    status: 200,
+    description: 'Users fetched successfully based on the query',
   })
   @ApiQuery({
     name: 'limit',
     type: 'number',
     required: false,
     description: 'The number of entries returned per query',
-    example: 10
+    example: 10,
   })
   @ApiQuery({
     name: 'page',
     type: 'number',
     required: false,
     description: 'The page number that you want the API to return',
-    example: 1
+    example: 1,
   })
-  public async getUsers(
-    @Param() getUserParams: GetUsersParamDto,
-    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
-    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
-  ) {
-    return this.usersService.findAll(getUserParams, limit, page);
+  public async getUsers() {
+    return this.usersService.findAll();
   }
 
   @Post()
@@ -69,5 +60,7 @@ export class UsersController {
   }
 
   @Patch()
-  public async updateUser(@Body() user: UpdateUserDto) {}
+  public async updateUser(@Body() user: UpdateUserDto) {
+    return user;
+  }
 }

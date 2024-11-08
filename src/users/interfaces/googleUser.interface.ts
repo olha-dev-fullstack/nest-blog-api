@@ -1,6 +1,6 @@
 export interface IGoogleUser {
-    email: string,
-    firstName: string,
-    lastName: string,
-    googleId: string
+  email: string;
+  firstName: string;
+  lastName: string;
+  googleId: string;
 }

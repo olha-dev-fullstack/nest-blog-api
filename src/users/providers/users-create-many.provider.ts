@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-} from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { User } from '../user.entity';
 import { CreateManyUsersDto } from '../dto/createManyUsers.dto';
@@ -23,7 +19,7 @@ export class UsersCreateManyProvider {
       { message: 'Could not connect to the database' },
     );
     try {
-      for (let user of createUsersDto.users) {
+      for (const user of createUsersDto.users) {
         const newUser = queryRunner.manager.create(User, user);
         const result = await queryRunner.manager.save(newUser);
         newUsers.push(result);

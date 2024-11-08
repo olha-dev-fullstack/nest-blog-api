@@ -25,6 +25,5 @@ export class TagsController {
   @Delete('/soft-delete/:id')
   public async softDeleteTag(@Param('id', ParseIntPipe) id: number) {
     return this.tagsService.softDelete(id);
-
   }
 }

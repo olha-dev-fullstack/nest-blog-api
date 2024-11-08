@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
-    IsJSON,
+  IsJSON,
   IsNotEmpty,
   IsOptional,
   IsString,

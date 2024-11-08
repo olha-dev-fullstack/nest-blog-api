@@ -96,7 +96,7 @@ export class CreatePostDto {
 
   @ApiPropertyOptional({
     description: 'Array of ids of tags',
-    example: [1,2],
+    example: [1, 2],
   })
   @IsOptional()
   @IsArray()
@@ -121,5 +121,4 @@ export class CreatePostDto {
   @ValidateNested({ each: true })
   @Type(() => CreatePostMetaOptionsDto)
   metaOptions?: CreatePostMetaOptionsDto | null;
-
 }

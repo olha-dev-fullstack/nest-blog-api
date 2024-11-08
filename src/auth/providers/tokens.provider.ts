@@ -11,8 +11,6 @@ import { User } from 'src/users/user.entity';
 import { IActiveUser } from '../interfaces/activeUser.interface';
 import { RefreshTokenDto } from '../dto/refreshToken.dto';
 import { UsersService } from 'src/users/providers/users.service';
-import { throws } from 'assert';
-import { error } from 'console';
 
 @Injectable()
 export class TokensProvider {

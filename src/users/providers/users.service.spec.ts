@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
-import { CreateManyUsersDto } from '../dto/createManyUsers.dto';
 import { UsersCreateManyProvider } from './users-create-many.provider';
 import { CreateUserProvider } from './create-user.provider';
 import { DataSource } from 'typeorm';
@@ -46,16 +45,16 @@ describe('UsersService', () => {
 
   describe('create', () => {
     it('should be defined', () => {
-        expect(service.create).toBeDefined();
+      expect(service.create).toBeDefined();
     });
-    it('should call create on CreateUsersProvider', async ()=> {
-        let user = await service.create({
-            firstName: 'John',
-            lastName: 'Smith',
-            email: 'john.smith@gmail.com',
-            password: 'password'
-        });
-        expect(user.firstName).toEqual('John');
-    })
-  })
+    it('should call create on CreateUsersProvider', async () => {
+      const user = await service.create({
+        firstName: 'John',
+        lastName: 'Smith',
+        email: 'john.smith@gmail.com',
+        password: 'password',
+      });
+      expect(user.firstName).toEqual('John');
+    });
+  });
 });

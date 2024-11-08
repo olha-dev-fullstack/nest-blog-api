@@ -32,14 +32,14 @@ export class User {
   })
   @Exclude()
   password?: string;
-  
+
   @Column({
     type: 'varchar',
-    nullable: true
+    nullable: true,
   })
   @Exclude()
   googleId?: string;
-  
-  @OneToMany(()=>Post, (post)=> post.author)
-  posts: Post[]
+
+  @OneToMany(() => Post, (post) => post.author)
+  posts: Post[];
 }

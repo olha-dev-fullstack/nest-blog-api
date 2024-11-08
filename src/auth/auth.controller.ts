@@ -12,14 +12,14 @@ export class AuthController {
   @Post('/sign-in')
   @HttpCode(HttpStatus.OK)
   @Auth(AuthType.None)
-  public async signIn(@Body() signInDto: SignInDto){
+  public async signIn(@Body() signInDto: SignInDto) {
     return this.authService.signIn(signInDto);
   }
 
   @Post('/refresh-tokens')
   @HttpCode(HttpStatus.OK)
   @Auth(AuthType.None)
-  public async refreshTokens(@Body() refreshTokenDto: RefreshTokenDto){
+  public async refreshTokens(@Body() refreshTokenDto: RefreshTokenDto) {
     return this.authService.refreshTokens(refreshTokenDto);
   }
 }

@@ -18,25 +18,26 @@ export class AccessTokenGuard implements CanActivate {
     @Inject(jwtConfig.KEY)
     private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
   ) {}
-  async canActivate(
-    context: ExecutionContext,
-  ): Promise<boolean> {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const token = this.extractRequestFromHeader(request);    
-    if(!token) {
+    const token = this.extractRequestFromHeader(request);
+    if (!token) {
       throw new UnauthorizedException();
     }
     try {
-      const payload = await this.jwtService.verifyAsync(token, this.jwtConfiguration);
+      const payload = await this.jwtService.verifyAsync(
+        token,
+        this.jwtConfiguration,
+      );
       request[REQUEST_USER_KEY] = payload;
-    } catch(e) {
+    } catch (e) {
       throw new UnauthorizedException();
     }
     return true;
   }
 
   private extractRequestFromHeader(request: Request): string | undefined {
-    const [_, token] = request.headers.authorization?.split(" ") ?? [];
+    const [_, token] = request.headers.authorization?.split(' ') ?? [];
     return token;
   }
 }

@@ -1,13 +1,10 @@
 import {
-  forwardRef,
   HttpException,
   HttpStatus,
-  Inject,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
 import { GetUsersParamDto } from '../dto/getUsersParam.dto';
-import { AuthService } from 'src/auth/providers/auth.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../user.entity';
@@ -35,11 +32,7 @@ export class UsersService {
   /**
    * Method to get all users from the database
    */
-  public async findAll(
-    getUsersParamDto: GetUsersParamDto,
-    limit: number,
-    page: number,
-  ) {
+  public async findAll() {
     throw new HttpException(
       {
         status: HttpStatus.MOVED_PERMANENTLY,

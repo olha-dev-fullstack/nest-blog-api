@@ -1,7 +1,6 @@
 import {
   Column,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -10,7 +9,6 @@ import {
 } from 'typeorm';
 import { PostType } from './enum/postType.enum';
 import { PostStatus } from './enum/postStatus.enum';
-import { CreatePostMetaOptionsDto } from 'src/meta-options/dto/createPostMetaOptions.dto';
 import { MetaOption } from 'src/meta-options/metaOption.entity';
 import { User } from 'src/users/user.entity';
 import { Tag } from 'src/tags/tag.entity';
@@ -83,7 +81,6 @@ export class Post {
   tags?: Tag[];
 
   @OneToOne(() => MetaOption, (metaOptions) => metaOptions.post, {
-    // cascade: ['remove', 'insert'],
     cascade: true,
     eager: true,
   })

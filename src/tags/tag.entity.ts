@@ -49,17 +49,17 @@ export class Tag {
   })
   featuredImage: string;
 
-  @ManyToMany(()=> Post, (post)=> post.tags, {
-    onDelete: 'CASCADE'
+  @ManyToMany(() => Post, (post) => post.tags, {
+    onDelete: 'CASCADE',
   })
-  posts: Post[]
+  posts: Post[];
 
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
-  
+
   @DeleteDateColumn()
   deletedAt: Date;
 }

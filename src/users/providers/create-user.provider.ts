@@ -40,7 +40,7 @@ export class CreateUserProvider {
     });
 
     newUser = await handleDbError(() => this.usersRepository.save(newUser));
-    
+
     try {
       await this.mailService.sendUserWelcome(newUser);
     } catch (e) {
