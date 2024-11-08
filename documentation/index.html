@@ -82,56 +82,122 @@
                <div class="content getting-started">
                    <div class="content-data">
 
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-<h2>Description</h2>
-<p><a href="https://github.com/nestjs/nest">Nest</a> framework TypeScript starter repository.</p>
-<h2>Installation</h2>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">$ npm install</code></pre></div><h2>Running the app</h2>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-bash"># development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod</code></pre></div><h2>Test</h2>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-bash"># unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov</code></pre></div><h2>Support</h2>
-<p>Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you&#39;d like to join them, please <a href="https://docs.nestjs.com/support">read more here</a>.</p>
-<h2>Stay in touch</h2>
+<h1>Blog API</h1>
+<p>This is a blog backend API where users can authenticate, create posts with different meta options, create tags and add them to posts. Also it is possible to upload image files to the server (images will be saved to S3 bucket on Amazon). The project is built using NestJS, PostgeSQL, TypeORM. Alternatively there is a simplified version which uses MongoDB and Mongoose (available on separate branch). Authorization and authentication is implemented with JWT. It is also possible to authenticate using Google.</p>
+<h2>Features</h2>
 <ul>
-<li>Author - <a href="https://kamilmysliwiec.com">Kamil Myśliwiec</a></li>
-<li>Website - <a href="https://nestjs.com/">https://nestjs.com</a></li>
-<li>Twitter - <a href="https://twitter.com/nestframework">@nestframework</a></li>
+<li><strong>Posts Management</strong>: Authorized users can create, update and delete posts. Also it is possible to fetch paginated posts in some dates range.</li>
+<li><strong>Users Authentication</strong>: After signing in user receives access and refresh tokens.</li>
+<li><strong>User Account Management</strong>: It is possible to create and update single user account and also create multiple users with one request.</li>
+<li><strong>Meta Options</strong>: Meta options is a special property which can be attached to the post. Meta options can be separately created.</li>
+<li><strong>Tags</strong>: Tags are also one of posts properties and should be created before adding to post.</li>
+<li><strong>Upload images</strong>: There is a possibility to upload image files to the server. As a response user receives a cloudfront url attached to the apploaded image.</li>
 </ul>
-<h2>License</h2>
-<p>Nest is <a href="LICENSE">MIT licensed</a>.</p>
+<h2>Technologies</h2>
+<h3>Development</h3>
+<ul>
+<li><strong>NestJS</strong>: A progressive Node.js framework for building efficient and scalable server-side applications.</li>
+<li><strong>PostgreSQL</strong>: An open-source relational database known for its robustness, extensibility, and compliance with SQL standards.</li>
+<li><strong>TypeORM</strong>: An Object-Relational Mapping (ORM) library for TypeScript and JavaScript, supporting multiple databases.</li>
+<li><strong>Docker</strong>: A platform for developing, shipping, and running applications in isolated containers. Used for running database on local machine.</li>
+<li><strong>Google Auth</strong>: An authentication service by Google that allows secure user login with Google accounts.</li>
+</ul>
+<h3>Mail sending</h3>
+<ul>
+<li><strong>Mailtrap</strong>: SMTP provider for sending welcome emails to newly created users</li>
+</ul>
+<h3>Files storage</h3>
+<ul>
+<li><strong>AWS S3</strong>: A scalable storage service by Amazon Web Services for storing and retrieving any amount of data. Used for storing files.</li>
+<li><strong>AWS CloudFront</strong>: A content delivery network (CDN) by AWS that distributes content globally with low latency.</li>
+</ul>
+<h3>Alternative database</h3>
+<ul>
+<li><strong>MongoDB</strong>: A NoSQL database known for its flexibility and scalability, storing data in JSON-like documents.</li>
+<li><strong>Mongoose</strong>: An Object Data Modeling (ODM) library for MongoDB and Node.js, providing schema-based data validation.</li>
+</ul>
+<h3>Deployment</h3>
+<ul>
+<li><strong>PM2</strong>: A process manager for Node.js applications that simplifies deployment and management. Used for running deployed application on Amazon.</li>
+<li><strong>AWS EC2</strong>: A service by Amazon Web Services providing resizable compute capacity in the cloud.</li>
+</ul>
+<h3>Testing and documentation</h3>
+<ul>
+<li><strong>Jest</strong>: A JavaScript testing framework for unit and integration testing with a focus on simplicity.</li>
+<li><strong>Swagger</strong>: A toolset for designing, building, documenting, and consuming RESTful APIs.</li>
+<li><strong>Compodoc</strong>: A documentation tool that generates static documentation from code.</li>
+</ul>
+<h2>How to run the project localy</h2>
+<h3>1. Clone the Repository</h3>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">git clone https://github.com/olha-dev-fullstack/nest-blog-api.git
+cd nest-blog-api</code></pre></div><h3>2. Install Dependencies</h3>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm install</code></pre></div><h3>3. Create <code>.env</code> files:</h3>
+<ul>
+<li><code>.env.development</code> for developmet mode with next structure:</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">DB_HOST=localhost
+DB_PORT=5432
+DB_USER=
+DB_PASSWORD=
+DB_NAME=
+DB_SYNC=false
+DB_AUTOLOAD=true
+
+// randomly generated keys
+API_VERSION=
+PROFILE_API_KEY=
+
+JWT_SECRET=
+JWT_TOKEN_AUDIENCE=localhost:3000
+JWT_TOKEN_ISSUER=localhost:3000
+JWT_ACCESS_TOKEN_TTL=3600
+JWT_REFRESH_TOKEN_TTL=86400
+
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
+AWS_PUBLIC_BUCKET_NAME=
+AWS_REGION=
+AWS_CLOUDFRONT_URL=
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+
+// Mailtrap credentials
+MAIL_HOST=
+SMTP_USERNAME=
+SMTP_PASSWORD=
+
+MONGO_DB_USERNAME=
+MONGO_DB_PASSWORD=
+MONGO_DB_NAME=
+MONGO_DB_CONNECTION_STRING=</code></pre></div><ul>
+<li><p><code>.env.test</code> should be similatr to <code>env.development</code> to execute tests:</p>
+</li>
+<li><p>in production <code>.env</code> file will be used so it can be generated similarly to development one.</p>
+</li>
+</ul>
+<h3>3. Database Setup</h3>
+<p>Create <code>typeorm-cli.config.ts</code> file (you can use ``typeorm-cli.sample.config.ts` as an example) and set valid database_name</p>
+<p>Run migrations to create local database:</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run migration:run</code></pre></div><h3>5. Start the Server</h3>
+<p>Run the NestJS server:</p>
+<ul>
+<li>watch mode</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run start:dev</code></pre></div><ul>
+<li>dev mode</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run start</code></pre></div><ul>
+<li>production mode</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run start:prod</code></pre></div><p>The API will be available at <code>http://localhost:3000</code>.</p>
+<h2>API Endpoints</h2>
+<p>Swagger documentation: <a href="http://ec2-63-176-53-21.eu-central-1.compute.amazonaws.com/api#/">http://ec2-63-176-53-21.eu-central-1.compute.amazonaws.com/api#/</a></p>
+<h2>Running Tests</h2>
+<p>To run unit tests, use:</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run test</code></pre></div><p>To run End-to-End tests, use:</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run test:e2e</code></pre></div><h2>Generate documentation</h2>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-bash">npm run doc</code></pre></div><p>It would be accessible on the port <code>3001</code>.</p>
 
 
 

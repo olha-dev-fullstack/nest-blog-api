@@ -119,7 +119,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/posts/dto/createPostMetaOprions.dto.ts</code>
+            <code>src/meta-options/dto/createPostMetaOptions.dto.ts</code>
         </p>
 
 
@@ -142,11 +142,7 @@
                             <li>
                                     <span class="modifier"></span>
                                     <span class="modifier"></span>
-                                <a href="#key" >key</a>
-                            </li>
-                            <li>
-                                    <span class="modifier"></span>
-                                <a href="#value" >value</a>
+                                <a href="#metaValue" >metaValue</a>
                             </li>
                         </ul>
                     </td>
@@ -171,12 +167,12 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="key"></a>
+                    <a name="metaValue"></a>
                     <span class="name">
                             <span class="modifier"></span>
                             <span class="modifier"></span>
-                        <span ><b>key</b></span>
-                        <a href="#key"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>metaValue</b></span>
+                        <a href="#metaValue"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -191,49 +187,13 @@
                         <b>Decorators : </b>
                         <br />
                         <code>
-                            @IsString()<br />@IsNotEmpty()<br />
+                            @IsNotEmpty()<br />@IsJSON()<br />
                         </code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">src/posts/dto/createPostMetaOprions.dto.ts:6</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="value"></a>
-                    <span class="name">
-                            <span class="modifier"></span>
-                        <span ><b>value</b></span>
-                        <a href="#value"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <b>Decorators : </b>
-                        <br />
-                        <code>
-                            @IsNotEmpty()<br />
-                        </code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">src/posts/dto/createPostMetaOprions.dto.ts:9</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">src/meta-options/dto/createPostMetaOptions.dto.ts:6</a></div>
                         </td>
                     </tr>
 
@@ -252,15 +212,12 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { IsNotEmpty, IsString } from &quot;class-validator&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { IsJSON, IsNotEmpty, IsString, MaxLength } from &#x27;class-validator&#x27;;
 
 export class CreatePostMetaOptionsDto {
-    @IsString()
-    @IsNotEmpty()
-    key: string;
-
-    @IsNotEmpty()
-    value: any
+  @IsNotEmpty()
+  @IsJSON()
+  metaValue: string;
 }</code></pre>
     </div>
 </div>

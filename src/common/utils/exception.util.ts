@@ -13,6 +13,7 @@ export async function handleDbError<T>(
   try {
     return await fn();
   } catch (e) {
+    console.log(e);
     throw new RequestTimeoutException(message ?? 'Unable to process request', {
       description: description ?? e.toString(),
     });
