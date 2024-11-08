@@ -6,7 +6,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { GetUsersParamDto } from '../dto/getUsersPAram.dto';
+import { GetUsersParamDto } from '../dto/getUsersParam.dto';
 import { AuthService } from 'src/auth/providers/auth.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';

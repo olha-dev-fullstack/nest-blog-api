@@ -12,7 +12,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/createUser.dto';
-import { GetUsersParamDto } from './dto/getUsersPAram.dto';
+import { GetUsersParamDto } from './dto/getUsersParam.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { UsersService } from './providers/users.service';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
