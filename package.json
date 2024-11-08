@@ -23,7 +23,8 @@
     "doc": "npx @compodoc/compodoc -p tsconfig.json -s --port 3001 --watch -d ./documentation",
     "migration:generate": "npx typeorm migration:generate src/migrations/firstMigration -d dist/typeorm-cli.config",
     "migration:run": "npx typeorm migration:run -d dist/typeorm-cli.config",
-    "pm2": "pm2 start npm --name nestjs-blog -- start:awsProd"
+    "pm2": "pm2 start npm --name nestjs-blog -- start",
+    "pm2:awsProd": "NODE_OPTIONS=\"--max-old-space-size=1024\" pm2 start npm --name nestjs-blog -- start --update-env"
   },
   "dependencies": {
     "@compodoc/compodoc": "^1.1.26",
